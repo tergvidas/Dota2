@@ -1,38 +1,28 @@
 const MongoClient = require('mongodb').MongoClient;
-//const url =   
+const fs = require('fs');
+const connectionInfo = JSON.parse(fs.readFileSync(fs.openSync('./backend/DatabaseConfiguration.json', 'r')).toString());
+const url = "mongodb://"+connectionInfo.username+":"+connectionInfo.password+"@"+connectionInfo.link;
 const dbConnected = MongoClient.connect(url);
 
 let Player = {
     /** 
-     * @returns {Object} players
+     * @returns {Promise<Object>} players
     */
     getPlayers: () => {
         return dbConnected.then(db => {
             let myDatabase = db.db('dota2_db')
-            myDatabase.collection("Player").findOne({}, function(err, result) {
-                if (err){
-                    console.log('Error getting players: ' + err.message)
-                    return;
-                }
-                return result;
-              });
+            return myDatabase.collection("Player").findOne({});
         });
     },
 
     /** 
      * @param {String} steamId player steamID64
-     * @returns {Object} player
+     * @returns {Promise<Object>} player
     */
     getPlayer: (steamID) => {
         return dbConnected.then(db => {
             let myDatabase = db.db('dota2_db')
-            myDatabase.collection("Player").find({playerSteamID64:steamID}, { "_id": 0 }).toArray(function(err, result) {
-                if (err){
-                    console.log('Error getting player: ' + err.message)
-                    return;
-                }
-                return result;
-              });
+            return myDatabase.collection("Player").find({playerSteamID64:steamID}, { "_id": 0 }).toArray();
         });
     },
 
@@ -87,35 +77,23 @@ let Player = {
  
 let Matches = {
     /** 
-     * @returns {Object} matches
+     * @returns {Promise<Object>} matches
     */
     getMatches: () => {
         return dbConnected.then(db => {
             let myDatabase = db.db('dota2_db')
-            myDatabase.collection("Matches").findOne({}, function(err, result) {
-                if (err){
-                    console.log('Error getting matches: ' + err.message)
-                    return;
-                }
-                return result;
-              });
+            return myDatabase.collection("Matches").findOne({});
         });
     },
 
     /** 
      * @param {number} matchID
-     * @returns {Object} match
+     * @returns {Promise<Object>} match
     */
     getMatch: (matchID) => {
         return dbConnected.then(db => {
             let myDatabase = db.db('dota2_db')
-            myDatabase.collection("Matches").find({id:matchID}, { "_id": 0 }).toArray(function(err, result) {
-                if (err){
-                    console.log('Error getting match: ' + err.message)
-                    return;
-                }
-                return result;
-              });
+            return myDatabase.collection("Matches").find({id:matchID}, { "_id": 0 }).toArray();
         });
     },
 
