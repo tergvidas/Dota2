@@ -32,7 +32,7 @@ let MatchRating = {
      * @returns {Promise<RatingObject>} 
     */
    getRating: (ratingID) => {
-            return myDatabase.collection("MatchRating").find({id:parseInt(ratingID)}).toArray();
+            return myDatabase.collection("MatchRating").find({ratingId:parseInt(ratingID)}).toArray();
     },
 
     /** 
@@ -40,7 +40,7 @@ let MatchRating = {
      * @param {RatingObject} newValues
     */
     updateRating: (ratingID, newValues) => {
-            myDatabase.collection("MatchRating").updateOne({id: ratingID}, newValues, function(err, result) {
+            myDatabase.collection("MatchRating").updateOne({ratingId: ratingID}, newValues, function(err, result) {
                 if (err){
                     console.log('Error updating: ' + err.message)
                     return;
@@ -64,7 +64,9 @@ let MatchRating = {
      * @param {number} ratingID
     */
     deleteRating: (ratingID) => {
-            myDatabase.collection("Matches").deleteOne({id:ratingID}, function(err, result) {
+        console.log(ratingID)
+        
+            myDatabase.collection("MatchRating").deleteOne({ratingId:parseInt(ratingID)}, function(err, result) {
                 if (err){
                     console.log('Error deleting: ' + err.message)
                 }

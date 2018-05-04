@@ -16,10 +16,11 @@ function appRequests(app){
             .then(data => {
         res.send(data)});
     });
-    /*app.delete('/MatchRating/:id', (req, res) =>{
-        let playerID = req.params.id;
-        //res.send(database.Player.deletePlayer(playerID.toString()));
-    });*/
+    app.delete('/MatchRating/:id', (req, res) =>{
+        let ratingID = req.params.id;
+        console.log(ratingID)
+        res.send(database.MatchRating.deleteRating(ratingID.toString()));
+    });
     app.put('/MatchRating', (req, res) =>{
     });
 }
