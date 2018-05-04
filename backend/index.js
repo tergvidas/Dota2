@@ -8,7 +8,10 @@ const config = require('./../webpack.config.js');
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
 const app = express();
-const database = require('./Database');
+
+const RatingsAppService = require('./RatingsAppService');
+const dataBase = require('./DataBase');
+dataBase.MatchRating.connect();
 
 if (isDeveloping) {
     const compiler = webpack(config);
@@ -39,56 +42,10 @@ if (isDeveloping) {
     });
 }
 
-appRequests(app);
+RatingsAppService.appRequests(app);
 app.listen(port, error => {
     if (error) {
         return console.error(error);
     }
     console.info('==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.', port, port);
 });
-
-function appRequests(app){
-    app.get('/player/:id', (req, res) =>{
-        let playerID = req.params.id;
-        database.Player.getPlayer(playerID.toString())
-            .then(data => {
-                res.send(data)
-            });
-    });
-    app.get('/players', (req, res) =>{
-        database.Player.getPlayers()
-            .then(data => {
-        res.send(data)});
-    });
-    /*app.delete('/player/:id', (req, res) =>{
-        let playerID = req.params.id;
-        //res.send(database.Player.deletePlayer(playerID.toString()));
-    });*/
-    app.put('/players', (req, res) =>{
-        
-
-
-    });
-
-
-    app.get('/matches', (req, res) =>{
-        database.Matches.getMatches()
-            .then(data => {
-        res.send(data)});
-    });
-    app.get('/match/:id', (req, res) =>{
-        matchID = req.params.id;
-        database.Player.getPlayer(matchID)
-            .then(data => {
-                res.send(data)
-            });
-    });
-    /*app.delete('/match/:id', (req, res) =>{
-        matchID = req.params.id;
-        //res.send(database.Matches.deleteMatch(matchID));
-    });*/
-    app.put('/match', (req, res) =>{
-        
-
-    });
-}
