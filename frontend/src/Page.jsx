@@ -1,20 +1,24 @@
 import React from 'react';
-//import FilterMatches from './FilterMatches'
+import Ratings from './Matches/Ratings.jsx';
+import "./Page.css";
 
-export default class Page extends React.Component {
+class Page extends React.Component {
     constructor(props) {
         super(props);
-        
-
     }
+
     render() {
         return (
             <div>
-                <div>
-                    <h1>Dota2 match info</h1>
+                <div className="Header">
+                    <h1>Dota2 match reviews</h1>
                 </div>
-
+                <div className="Matches">
+                    <Ratings/>
+                </div>
             </div>
         );
     }
 }
+
+export default Page;

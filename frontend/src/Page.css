@@ -1,0 +1,12 @@
+body {
+    background-color: white;
+    font-family: "Verdana";
+}
+
+.Header{
+    margin: 0px;
+    padding: 10px;
+    background-color: white;
+    color: goldenrod;
+    text-align: center;
+}

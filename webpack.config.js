@@ -14,11 +14,12 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
-          options: {
+          options: { 
             presets: ['babel-preset-env', 'react']
           }
         }
-      }
+      },
+      {test: /\.css$/, loader: "style-loader!css-loader" }
     ]
   },
   plugins: [new HtmlWebpackPlugin({
