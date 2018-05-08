@@ -23,6 +23,7 @@
     "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "joi": "^13.1.2",
     "mongodb": "^3.0.5",

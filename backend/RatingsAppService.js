@@ -11,17 +11,28 @@ function appRequests(app){
                 res.send(data)
             });
     });
+    
     app.get('/MatchRatings', (req, res) =>{
         database.MatchRating.getRatings()
             .then(data => {
-        res.send(data)});
+            res.send(data)});
     });
+
     app.delete('/MatchRating/:id', (req, res) =>{
         let ratingID = req.params.id;
-        console.log(ratingID)
         res.send(database.MatchRating.deleteRating(ratingID.toString()));
     });
+
     app.put('/MatchRating', (req, res) =>{
+        let newRating = req.body;
+        res.send(database.MatchRating.updateRating(newRating));
+    });
+
+    app.post('/MatchRating', (req, res) =>{
+        let newRating = req.body;
+        newRating.ratingId = 4;
+        delete newRating['_id'];
+        res.send(database.MatchRating.createRating(newRating));
     });
 }
 module.exports = {appRequests};

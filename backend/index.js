@@ -12,6 +12,7 @@ const app = express();
 const RatingsAppService = require('./RatingsAppService');
 const dataBase = require('./DataBase');
 dataBase.MatchRating.connect();
+bodyParser = require('body-parser');
 
 if (isDeveloping) {
     const compiler = webpack(config);
@@ -41,6 +42,8 @@ if (isDeveloping) {
         res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
     });
 }
+
+app.use(bodyParser.json());
 
 RatingsAppService.appRequests(app);
 app.listen(port, error => {

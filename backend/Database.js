@@ -8,9 +8,9 @@ let myDatabase = null;
 
 let MatchRating = {
     connect: () => {
-        MongoClient.connect(url, (error, client) => {               
-            if(error){
-            console.error(error);
+        MongoClient.connect(url, (err, client) => {               
+            if(err){
+            console.error(err);
             return;
             }
             myDatabase = client.db('dota2_db'); 
@@ -36,11 +36,15 @@ let MatchRating = {
     },
 
     /** 
-     * @param {number} ratingID
      * @param {RatingObject} newValues
     */
-    updateRating: (ratingID, newValues) => {
-            myDatabase.collection("MatchRating").updateOne({ratingId: ratingID}, newValues, function(err, result) {
+    updateRating: (newValues) => {
+        let ratingID = newValues.ratingId;
+        delete newValues['_id'];
+        delete newValues['ratingId'];
+
+        console.log(ratingID)
+            myDatabase.collection("MatchRating").updateOne({ratingId: parseInt(ratingID)}, {$set: newValues}, function(err, result) {
                 if (err){
                     console.log('Error updating: ' + err.message)
                     return;
