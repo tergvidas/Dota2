@@ -20,11 +20,18 @@ let MatchRating = {
      * @param {Object} options filter options
      * @returns {Promise<Array<RatingObject>>} matches
     */
-    getRatings: (option) => {
-            let query;
-            query = [{}];
-            console.log(JSON.stringify(query))
-            return myDatabase.collection("MatchRating").find({$and: query}).toArray();
+    getRatings: (options) => {
+            let query = [{}];
+            if (options.filter === 'true'){
+                if (options.from === 'null')
+                    options.from = 1;
+                if (options.to === 'null')
+                    options.to = 256111;
+                
+                query = [{ ratingId: { $lt : parseInt(options.to)+1} }, { ratingId: { $gt : parseInt(options.from)-1} },
+                            {anonymous: options.anonymous}];
+            }
+            return myDatabase.collection("MatchRating").find({$and: query}).limit(parseInt(options.showItems)).toArray();
     },
 
     /** 
@@ -42,8 +49,6 @@ let MatchRating = {
         let ratingID = newValues.ratingId;
         delete newValues['_id'];
         delete newValues['ratingId'];
-
-        console.log(ratingID)
             myDatabase.collection("MatchRating").updateOne({ratingId: parseInt(ratingID)}, {$set: newValues}, function(err, result) {
                 if (err){
                     console.log('Error updating: ' + err.message)

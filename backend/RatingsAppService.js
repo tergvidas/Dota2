@@ -12,8 +12,15 @@ function appRequests(app){
             });
     });
     
-    app.get('/MatchRatings', (req, res) =>{
-        database.MatchRating.getRatings()
+    app.get('/MatchRatings/:filter&:from&:to&:anonymous&:showItems', (req, res) =>{
+        let options = {
+            filter: req.params.filter,
+            from: req.params.from,
+            to: req.params.to,
+            anonymous: req.params.anonymous,
+            showItems: req.params.showItems
+        }
+        database.MatchRating.getRatings(options)
             .then(data => {
             res.send(data)});
     });
