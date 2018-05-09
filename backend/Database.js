@@ -16,6 +16,13 @@ let MatchRating = {
             myDatabase = client.db('dota2_db'); 
         });  
     },
+    /**
+     * @returns {Promise<number>}
+     */
+    getLastRatingId: () => {
+        var mySort = { ratingId: -1 };
+        return myDatabase.collection("MatchRating").find().sort(mySort).limit(1).toArray();
+    },
     /** 
      * @param {Object} options filter options
      * @returns {Promise<Array<RatingObject>>} matches

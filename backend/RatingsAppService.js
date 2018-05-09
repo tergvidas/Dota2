@@ -38,9 +38,13 @@ function appRequests(app){
 
     app.post('/MatchRating', (req, res) =>{
         let newRating = req.body;
-        newRating.ratingId = 4;
+        let s = null;
         delete newRating['_id'];
-        res.send(database.MatchRating.createRating(newRating));
+        database.MatchRating.getLastRatingId()
+            .then(data => { 
+                newRating.ratingId = (data[0].ratingId + 1);
+                res.send(database.MatchRating.createRating(newRating));
+            });
     });
 }
 module.exports = {appRequests};
