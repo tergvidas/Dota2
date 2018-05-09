@@ -9,6 +9,7 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
 const app = express();
 
+const Dota2ApiService = require('./Dota2ApiService');
 const RatingsAppService = require('./RatingsAppService');
 const dataBase = require('./DataBase');
 dataBase.MatchRating.connect();
@@ -45,7 +46,9 @@ if (isDeveloping) {
 
 app.use(bodyParser.json());
 
+Dota2ApiService.appRequests(app);
 RatingsAppService.appRequests(app);
+
 app.listen(port, error => {
     if (error) {
         return console.error(error);

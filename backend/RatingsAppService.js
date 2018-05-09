@@ -12,12 +12,13 @@ function appRequests(app){
             });
     });
     
-    app.get('/MatchRatings/:filter&:from&:to&:anonymous&:showItems', (req, res) =>{
+    app.get('/MatchRatings/:filter&:from&:to&:anonymous&:showItems&:both', (req, res) =>{
         let options = {
             filter: req.params.filter,
             from: req.params.from,
             to: req.params.to,
             anonymous: req.params.anonymous,
+            both: req.params.both,
             showItems: req.params.showItems
         }
         database.MatchRating.getRatings(options)

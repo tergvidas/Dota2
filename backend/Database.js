@@ -28,8 +28,9 @@ let MatchRating = {
                 if (options.to === 'null')
                     options.to = 256111;
                 
-                query = [{ ratingId: { $lt : parseInt(options.to)+1} }, { ratingId: { $gt : parseInt(options.from)-1} },
-                            {anonymous: options.anonymous}];
+                query = [{ ratingId: { $lt : parseInt(options.to)+1} }, { ratingId: { $gt : parseInt(options.from)-1} }];
+                if (options.both === 'false')
+                    query.push({anonymous: options.anonymous});
             }
             return myDatabase.collection("MatchRating").find({$and: query}).limit(parseInt(options.showItems)).toArray();
     },
