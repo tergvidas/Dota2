@@ -33,8 +33,8 @@ let MatchRating = {
                 if (options.from === 'null')
                     options.from = 1;
                 if (options.to === 'null')
-                    options.to = 256111;
-                query = [{ ratingId: { $lt : parseInt(options.to)+1} }, { ratingId: { $gt : parseInt(options.from)-1} }];
+                    options.to = 11;
+                query = [{ rating: { $lt : (parseInt(options.to)+1)} }, { rating: { $gt : (parseInt(options.from)-1)} }];
                 if (options.both === 'false')
                     query.push({anonymous: options.anonymous});
             }

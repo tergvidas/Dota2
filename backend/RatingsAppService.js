@@ -37,18 +37,25 @@ function appRequests(app){
         delete ratingForCheck['_id'];
 
         let result = Joi.validate(newRating, Ratings)
+        result.value.createDate = newRating.createDate;
+        result.value.modifyDate = newRating.modifyDate;
+        result.value.anonymous = newRating.anonymous;
+        
         if (result.error){
             res.status(400).send({ error: "Invalid data" });
             return;
         }
-        res.send(database.MatchRating.updateRating(newRating));
+        res.send(database.MatchRating.updateRating(result.value));
     });
 
     app.post('/MatchRating', (req, res) =>{
         let newRating = req.body;
         newRating.ratingId = 1;
         let result = Joi.validate(newRating, Ratings);
-
+        result.value.createDate = newRating.createDate;
+        result.value.modifyDate = newRating.modifyDate;
+        result.value.anonymous = newRating.anonymous;
+        
         delete newRating['_id'];
 
         if (result.error){
@@ -57,8 +64,8 @@ function appRequests(app){
         }
         database.MatchRating.getLastRatingId()
             .then(data => { 
-                newRating.ratingId = (data[0].ratingId + 1);
-                res.send(database.MatchRating.createRating(newRating));
+                result.value.ratingId = (data[0].ratingId + 1);
+                res.send(database.MatchRating.createRating(result.value));
             });
     });
 }
