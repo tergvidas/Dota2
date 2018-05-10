@@ -10,8 +10,8 @@ let MatchRating = {
     connect: () => {
         MongoClient.connect(url, (err, client) => {               
             if(err){
-            console.error(err);
-            return;
+                console.error(err);
+                return;
             }
             myDatabase = client.db('dota2_db'); 
         });  
@@ -34,7 +34,6 @@ let MatchRating = {
                     options.from = 1;
                 if (options.to === 'null')
                     options.to = 256111;
-                
                 query = [{ ratingId: { $lt : parseInt(options.to)+1} }, { ratingId: { $gt : parseInt(options.from)-1} }];
                 if (options.both === 'false')
                     query.push({anonymous: options.anonymous});
@@ -81,8 +80,6 @@ let MatchRating = {
      * @param {number} ratingID
     */
     deleteRating: (ratingID) => {
-        console.log(ratingID)
-        
             myDatabase.collection("MatchRating").deleteOne({ratingId:parseInt(ratingID)}, function(err, result) {
                 if (err){
                     console.log('Error deleting: ' + err.message)

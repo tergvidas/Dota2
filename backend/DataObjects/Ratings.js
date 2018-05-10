@@ -7,7 +7,7 @@ let rating = {
     matchId: Joi.number().integer().min(0).required(),
     rating: Joi.number().integer().min(1).max(10).required(),
     name: Joi.string().min(1).max(100).required(),
-    comment: Joi.string().min(1).max(1024).required(),
+    comment: Joi.string().min(1).max(1024).allow(''),
     anonymous: Joi.boolean().required()
 };
 
