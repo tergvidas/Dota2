@@ -33,13 +33,28 @@ function appRequests(app){
 
     app.put('/MatchRating', (req, res) =>{
         let newRating = req.body;
+        let ratingForCheck = req.body;
+        delete ratingForCheck['_id'];
+
+        let result = Joi.validate(newRating, Ratings)
+        if (result.error){
+            res.status(400).send({ error: "Invalid data" });
+            return;
+        }
         res.send(database.MatchRating.updateRating(newRating));
     });
 
     app.post('/MatchRating', (req, res) =>{
         let newRating = req.body;
-        let s = null;
+        newRating.ratingId = 1;
+        let result = Joi.validate(newRating, Ratings);
+
         delete newRating['_id'];
+
+        if (result.error){
+            res.status(400).send({ error: "Invalid data" });
+            return;
+        }
         database.MatchRating.getLastRatingId()
             .then(data => { 
                 newRating.ratingId = (data[0].ratingId + 1);
