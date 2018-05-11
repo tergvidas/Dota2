@@ -1,0 +1,16 @@
+.popup-position2{
+    position: fixed;
+    left: 50px;
+    top: 50px;
+}
+
+#popup-container2{
+    background-color: rgb(206, 209, 12);
+    padding: 20px;
+    border-radius: 4px;
+}
+
+.PageButtons{
+    width: 125px;
+    display: inline;
+}
